@@ -1,12 +1,18 @@
+import Footer from "./Footer";
 import GeneralHero from "./GeneralHero";
 import GeneralNavbar from "./GeneralNavbar";
+import GeneralPlateCard from "./GeneralPlateCard";
 
 function GeneralHome () {
 
     return(
         <>
-            <GeneralNavbar/>
-            <GeneralHero/>
+            <div className="bg-black">
+                <GeneralNavbar/>
+                <GeneralHero/>
+                <GeneralPlateCard/>
+                <Footer/>
+            </div>
         </>
     );
 }
