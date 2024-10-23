@@ -5,6 +5,8 @@ import ClientAccPromo from "./ClientAccPromo";
 import ClientHero from "./ClientHero";
 import FullNavbar from "./FullNavbar";
 import show1 from '../assets/Show1.jpg'
+import GeneralPlateCard from "../Pages_D'accueil/GeneralPlateCard";
+import EvenementJour from "../Jeux_Evenement/EvenementJour";
 
 
 function ClientHome () {
@@ -15,8 +17,8 @@ function ClientHome () {
                 <FullNavbar/>
                 <ClientHero/>
                 <ClientAccPromo/>
-                <ClientAccPlats/>
-                <ClientAccEvent EventImage={show1} EventDescription="Evenement Fun, Venez tous!"/>
+                <GeneralPlateCard/>
+                <ClientAccEvent/>
                 <Footer/>
             </div>
         </>

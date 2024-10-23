@@ -99,6 +99,11 @@ CREATE DOMAIN pass /*Add it to document*/
     CONSTRAINT pass_inv CHECK (length(value) > 7)
 ;
 
+CREATE DOMAIN promRate
+    INT
+    CONSTRAINT promRate CHECK ( value BETWEEN 1 AND 100)
+;
+
 --
 -- Tables et vues
 --
@@ -107,7 +112,7 @@ CREATE TABLE Client
 (
     clientId        IdClient    NOT NULL,
     clientName      Nom         NOT NULL,
-    clientEmail     Email       NOT NULL,
+    clientEmail     Email       NOT NULL    UNIQUE,
     clientTel       Tel         NOT NULL,
     fidelityPoints  INT         NOT NULL,
     registryDate    DATE        NOT NULL,
@@ -132,11 +137,12 @@ CREATE TABLE MiniJeu
 
 CREATE TABLE Question
 (
-    questionNum SMALLINT        NOT NULL,
-    quizId      IdQuiz          NOT NULL,
-    answer      VARCHAR         NOT NULL,
-    CONSTRAINT  question_cc0    PRIMARY KEY (questionNum,quizId),
-    CONSTRAINT  question_cc1    FOREIGN KEY (quizId) REFERENCES MiniJeu
+    questionNum     SMALLINT        NOT NULL,
+    quizId          IdQuiz          NOT NULL,
+    quizQuestion    VARCHAR         NOT NULL, -- add to functions and documents
+    answer          VARCHAR         NOT NULL,
+    CONSTRAINT      question_cc0    PRIMARY KEY (questionNum,quizId),
+    CONSTRAINT      question_cc1    FOREIGN KEY (quizId) REFERENCES MiniJeu
 );
 
 CREATE TABLE ClientJeu
@@ -179,7 +185,7 @@ CREATE TABLE Promotion
     promotionId     IdPromo     NOT NULL,
     promotionStart  DATE        NOT NULL,
     promotionEnd    DATE        NOT NULL,
-    promotionRate   INT         NOT NULL,
+    promotionRate   promRate    NOT NULL,
     CONSTRAINT      promo_cc0   PRIMARY KEY (promotionId)
 );
 
@@ -189,19 +195,19 @@ CREATE TABLE PromoPlat
     plateId         IdPlate         NOT NULL,
     CONSTRAINT      promoplat_cc0   PRIMARY KEY (promotionId, plateId),
     CONSTRAINT      promoplat_cc1   FOREIGN KEY (promotionId) REFERENCES promotion,
-    CONSTRAINT      promoplat_cc2   FOREIGN KEY (plateId)     REFERENCES plat
+    CONSTRAINT      promoplat_cc2   FOREIGN KEY (plateId)     REFERENCES Plat
 );
 
 CREATE TABlE Commande
 (
     commandeId      IdCommande      NOT NULL,
-    userId          IdClient        NOT NULL,
+    clientId        IdClient        NOT NULL,
     commandeTotal   INT             NOT NULL,
     commandePoints  INT             NOT NULL,
     commandeDate    DATE            NOT NULL,
     commandeConfirm BOOLEAN         NOT NULL,
     CONSTRAINT      commande_cc0    PRIMARY KEY (commandeId),
-    CONSTRAINT      commande_cc1    FOREIGN KEY (userId) REFERENCES Client
+    CONSTRAINT      commande_cc1    FOREIGN KEY (clientId) REFERENCES Client
 );
 
 CREATE TABLE CommandePlat
@@ -217,7 +223,8 @@ CREATE TABLE Parrain
 (
     parrainId       IdClient        NOT NULL,
     parrainCode     VARCHAR         NOT NULL,
-    CONSTRAINT      parrain_cc0     PRIMARY KEY (parrainId)
+    CONSTRAINT      parrain_cc0     PRIMARY KEY (parrainId),
+    CONSTRAINT      parrain_cc1     FOREIGN KEY (parrainId) REFERENCES Client (clientId)
 );
 
 CREATE TABLE Filleul
@@ -231,9 +238,10 @@ CREATE TABLE Filleul
 CREATE TABLE Evenements
 (
     eventId             IdEvent     NOT NULL,
+    eventName           Nom         NOT NULL,
     eventDescription    VARCHAR     NOT NULL,
     eventDate           DATE        NOT NULL,
-    /*Remove eventImage from document*/
+    eventImage          bytea       NOT NULL, /*add it to functions*/
     CONSTRAINT          event_cc0   PRIMARY KEY (EventId)
 );
 

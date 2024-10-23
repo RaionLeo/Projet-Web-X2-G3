@@ -12,8 +12,8 @@ function GeneralPlateCard () {
     return (
         <div className="container-fluid mt-5">
             <h1 className="d-inline-block mb-5" style={styleWhite}>Nos <h1 style={styleGolden} className="d-inline-block">Plats</h1></h1>
-            <div class="container-fluid">
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-3">
+            <div className="container-fluid">
+                <div className="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-3">
                     <FoodCard TopImage={food1} Title='Cassoulet' Text='Un bon Cassoulet'/>
                     <FoodCard TopImage={food2} Title='Ndole' Text='Un bon Ndole'/>
                 </div>

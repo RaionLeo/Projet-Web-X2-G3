@@ -1,42 +1,58 @@
 import React, {useState} from "react" ;
+import axios from 'axios';
 import logo from '../assets/logo.png'
-
-// const registerForm = () => {
-//     const [formData, setFormData] = useState({
-//         name: "",
-//         email: "",
-//         password: "",
-//         phone: "",
-//     });
-// };
-// const handlechange = (e) => {
-//     setFormData({
-//         ...formData,
-//         [e.target.name]: e.target.value,
-//     });
-// };
+import { v4 as uuidv4} from "uuid";
+import { useNavigate } from "react-router-dom";
 
 
-// const handleSubmit = (e) => {
-//     e.preventDefault();
-//     console.log(formData);
-// };
-
-// <form onSubmit="{handleSubmit}">
-// <h2>Register</h2>
-
-// <div className="form-group">
-//         <input 
-//         type="text"
-//         name="name"
-//         placeholder="Name"
-//         value={formData.name}
-//         onChange={handleChange}
-//         required 
-//         />
-// </div>
 
 function SignUp () {
+
+    const navigate = useNavigate();
+
+    const goToSignIn = () => {
+        navigate('/SignIn');
+    }
+    const goToClientHome = () => {
+        navigate('/ClientHome')
+    }
+
+    let currentDate = new Date().toJSON().slice(0, 10);
+
+    const [client, setClient] = useState({
+        clientId : 'Client' + uuidv4(),
+        clientName : '',
+        clientEmail : '',
+        clientTel : '',
+        fidelityPoints : '0',
+        registryDate : currentDate,
+        accountState : 'activé',
+        clientSecret : ''
+    });
+
+    
+    const handleChange = (e) => {
+        setClient({
+            ...client,
+            [e.target.name]: e.target.value
+        });
+    };
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        axios.post('http://localhost/Project1/webProject/backend/routers/ClientApi.php?action=register', client)
+            .then(response => {
+                console.log(response.data);
+                if (response.data.status === 201) {
+                    alert(response.data.message);
+                    goToSignIn();
+                }
+            })
+            .catch(error => {
+                console.error('There was an error' , error);
+            })
+    };
 
     const contstyle = {
         backgroundColor : 'rgba(207, 189, 151, 0.15)',
@@ -58,18 +74,42 @@ function SignUp () {
             <img src={logo} width={'100px'}/>
             <div className="container col-12 col-md-6 px-5" style={contstyle}>
                 <p className="fs-1 fw-bold mt-5 mb-3 text-center">Register</p>
-                <form className="mt-5">
+                <form className="mt-5" onSubmit={handleSubmit}>
                     <label className="form-label">Name</label>
-                    <input className="form-control mt-3" type="text" placeholder="Nom complet" required/>
+                    <input className="form-control mt-3"
+                        type="text"
+                        name="clientName"
+                        placeholder="Nom complet"
+                        value={client.clientName}
+                        onChange={handleChange}
+                        required/>
                     <label className="form-label mt-3">E-mail</label>
-                    <input className="form-control mt-3" type="email" placeholder="Entrez votre email" required/>
+                    <input className="form-control mt-3"
+                        type="email"
+                        name="clientEmail"
+                        placeholder="Entrez votre email"
+                        value={client.clientEmail}
+                        onChange={handleChange}
+                        required/>
                     <label className="form-label mt-3">Password</label>
-                    <input className="form-control mt-3" type="password" placeholder="Entrez votre mot de passe" required/>
+                    <input className="form-control mt-3"
+                        type="password"
+                        name="clientSecret"
+                        placeholder="Entrez votre mot de passe"
+                        value={client.clientSecret}
+                        onChange={handleChange}
+                        required/>
                     <label className="form-label mt-3">Phone</label>
-                    <input className="form-control mt-3" type="password" placeholder="Entrez votre Numéro de Téléphone" required/>
+                    <input className="form-control mt-3"
+                        type="tel"
+                        name="clientTel"
+                        placeholder="Entrez votre Numéro de Téléphone"
+                        value={client.clientTel}
+                        onChange={handleChange}
+                        required/>
                     <div className="container text-center">
                         <button className="btn btn-primary my-5 px-5 fw-bold" style={styleGoldenButton}>Sign Up</button>
-                        <a href="#" style={{color : 'white'}}>Already have an account? Login here</a>
+                        <a onClick={goToSignIn} href="#" style={{color : 'white'}}>Already have an account? Login here</a>
                     </div>
                 </form>
             </div>

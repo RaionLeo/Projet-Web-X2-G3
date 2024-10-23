@@ -1,7 +1,10 @@
 import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 function FullNavbar() {
+
+    const [, , removeCookie] = useCookies(['userId', 'userName']);
 
     const styleGoldenButton = {
         backgroundColor : '#CFBD97',
@@ -9,20 +12,34 @@ function FullNavbar() {
         border : 'none',
     }
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    // const goToHome = () => {
-    //     navigate('/');
-    // }
-    // const goToCER = () => {
-    //     navigate('/Fidelite');
-    // }
-    // const goToFav = () => {
-    //     navigate('/Historiaue');
-    // }
-    // const goToGestion = () => {
-    //     navigate('/Classement');
-    // }
+    const goToClientHome = () => {
+        navigate('/ClientHome')
+    }
+
+    const goToClientMenu = () => {
+        navigate('/MenuEtudiant');
+    }
+
+    const goToFidelity = () => {
+        navigate('/Fidelity');
+    }
+
+    const goToHistory = () => {
+        navigate('/Historique');
+    }
+
+    const goToClassement = () => {
+        navigate('/Classement');
+    }
+
+    const Logout = () => {
+        removeCookie('userId');
+        removeCookie('userName')
+        alert("Vous êtes déconnecté!")
+        navigate('/')
+    }
 
     return (
         <nav className="navbar navbar-expand-md navbar-dark bg-black mb-5">
@@ -34,30 +51,30 @@ function FullNavbar() {
                     <span className="navbar-toggler-icon"></span>
                 </button>
             </div>
-            <div className="collapse navbar-collapse col-md-10" id="navbarNav">
+            <div className="collapse navbar-collapse col-md-10 d-md-flex justify-content-end" id="navbarNav">
                 <ul className="navbar-nav">
                     <div className="container">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <a className="nav-link fs-5">Accueil</a>
+                                <a className="nav-link fs-5" onClick={goToClientHome}>Accueil</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link fs-5">Fidélité</a>
+                                <a className="nav-link fs-5" onClick={goToFidelity}>Fidélité</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link fs-5">Historique</a>
+                                <a className="nav-link fs-5" onClick={goToHistory}>Historique</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link fs-5">Classement</a>
+                                <a className="nav-link fs-5" onClick={goToClassement}>Classement</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link fs-5">Deconnexion</a>
+                                <a className="nav-link fs-5" onClick={Logout}>Deconnexion</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" onClick={goToClientMenu}><button className="btn btn-warning px-5" style={styleGoldenButton}>Menu</button></a>
                             </li>
                         </ul>
                     </div>
-                    <li className="nav-item">
-                        <a className="nav-link"><button className="btn btn-warning px-5" style={styleGoldenButton}>Menu</button></a>
-                    </li>
                 </ul>
             </div>
         </nav>

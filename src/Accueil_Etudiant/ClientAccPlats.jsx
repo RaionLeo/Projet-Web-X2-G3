@@ -21,9 +21,9 @@ function ClientAccPlats () {
     return (
         <div className="container-fluid">
             <h1 className="d-inline-block my-5" style={styleWhite}>Nos <h1 style={styleGolden} className="d-inline-block">Plats</h1></h1>
-            <div className="row row-cols-1 row-cols-md-5 row-cols-lg-6 g-3">
-                <PromoFoodCard TopImage={food1}  DiscountPrice='Bon Cassoulet' Title='Cassoulet' Text='Un bon Cassoulet'/>
-                <PromoFoodCard TopImage={food2}  DiscountPrice='Bon Ndole' Title='Ndole' Text='Un bon Ndole'/>
+            <div className="row row-cols-2 row-cols-md-5 row-cols-lg-6 g-3">
+                <PromoFoodCard TopImage={food1}  DiscountPrice='Bon Cassoulet' Title='Cassoulet' display='d-none'/>
+                <PromoFoodCard TopImage={food2}  DiscountPrice='Bon Ndole' Title='Ndole' display='d-none'/>
             </div>
             <div className="container-fluid text-end mt-3">
                 <button style={styleGoldenButton}>Menu</button>

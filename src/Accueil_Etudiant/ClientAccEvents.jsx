@@ -1,36 +1,43 @@
+import EventCard from "../Jeux_Evenement/EventCard";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 
-function ClientAccEvent (props) {
+function ClientAccEvent () {
+
+    const [event, setEvent] = useState([]);
+    let currentDate = new Date().toJSON().slice(0, 10);
+
+
+    useEffect(() => {
+        axios.post('http://localhost/Project1/webProject/backend/routers/CurrentEventApi.php?action=currentEvents', {eventdate : currentDate})
+            .then(response => {
+                    if(response.statusText === "OK" && response.data.events) {
+                        setEvent(response.data.events);
+                        console.log(response.data.events);
+                    }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
 
     const styleGolden = {color: '#CFBD97'}
     const styleWhite = {
         color : 'white',
     }
-    const styleGoldenButton = {
-        backgroundColor : '#CFBD97',
-        color : 'white',
-        border : '1px hidden',
-        borderRadius : '20px',
-        padding : '10px',
-    }
-    const flexing = {
-        display : 'flex',
-        alignItems : 'center',
-        flexDirection : 'column',
-        justifyContent : 'center'
-    }
 
     return (
-        <div className="container-fluid">
-            <h1 className="d-inline-block my-5" style={styleWhite}>Nos <h1 style={styleGolden} className="d-inline-block">Evenements</h1></h1>
-            <div className="row">
-                <div className="col-6">
-                    <img src={props.EventImage} width={'100%'}/>
-                </div>
-                <div className="col-6" style={flexing}>
-                    <p style={{color:'white'}}>{props.EventDescription}</p>
-                    <button style={styleGoldenButton} className=' w-50'>En Savoir Plus</button>
-                </div>
+        <div className="container-fluid mb-3">
+            <h1 className="d-inline-block my-5" style={styleWhite}>Evenement du <h1 style={styleGolden} className="d-inline-block">Jour</h1></h1>
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+                {event.length > 0 ? (
+                    event.map((eventCard, index) => (
+                    <EventCard key={index} title={eventCard.eventname} date={eventCard.eventdate} text={eventCard.eventdescription}/>
+                ))
+                ) : (
+                    <p>Il n'y a pas d'évenements pour aujourd'hui!</p>
+                )}
             </div>
         </div>
     );

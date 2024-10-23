@@ -2,8 +2,6 @@ DROP TABLE Parametre;
        
 DROP TABLE ReclamationResp;
        
-DROP TABLE Reclamation;
-       
 DROP TABLE Evenements;
        
 DROP TABLE Filleul;
@@ -52,4 +50,5 @@ DROP DOMAIN IdRec;
 DROP DOMAIN IdResp;
 DROP DOMAIN IdSetting;
 DROP DOMAIN pass;
+DROP DOMAIN promRate;
        

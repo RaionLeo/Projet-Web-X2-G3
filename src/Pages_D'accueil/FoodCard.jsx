@@ -1,4 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 function FoodCard (props) {
+
+    const navigate = useNavigate();
+
+    const goToClientMenu = () => {
+        navigate('/MenuEtudiant');
+    }
 
     const styleGoldenButton = {
         backgroundColor : '#CFBD97',
@@ -13,15 +21,15 @@ function FoodCard (props) {
     }
 
     return (
-        <div class="col">
-            <div class="card" style={styleBorderGold}>
-                <img src={props.TopImage} class="card-image-top"/>
-                <div class="class-body bg-black">
-                    <div class="class-title fs-4 fw-bold mt-3" style={styleWhite}>{props.Title}</div>
-                    <div class="class-text fw-lighter mt-3" style={styleWhite}>{props.Text}</div>
-                    <div class="row mt-3 mb-3">
-                        <div class="col text-center">
-                            <a href="#" class="btn btn-secondary p-3" style={styleGoldenButton}>Voir Le Menu</a>
+        <div className="col">
+            <div className="card" style={styleBorderGold}>
+                <img src={props.TopImage} className="card-image-top"/>
+                <div className="card-body bg-black">
+                    <div className="card-title fs-4 fw-bold mt-3" style={styleWhite}>{props.Title}</div>
+                    <div className="card-text fw-lighter mt-3" style={styleWhite}>{props.Text}</div>
+                    <div className="row mt-3 mb-3">
+                        <div className="col text-center">
+                            <a onClick={goToClientMenu} className="btn btn-secondary p-3" style={styleGoldenButton}>Voir Le Menu</a>
                         </div>
                     </div>
                 </div>
