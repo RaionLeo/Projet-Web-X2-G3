@@ -27,7 +27,8 @@ function SignUp () {
         fidelityPoints : '0',
         registryDate : currentDate,
         accountState : 'activé',
-        clientSecret : ''
+        clientSecret : '',
+        clientLocation : ''
     });
 
     
@@ -53,13 +54,14 @@ function SignUp () {
                 console.error('There was an error' , error);
             })
     };
+    // 'rgba(207, 189, 151, 0.15)'
 
     const contstyle = {
-        backgroundColor : 'rgba(207, 189, 151, 0.15)',
+        backgroundColor : '#000000',
         color : 'white',
-        border : '1px hidden',
+        border : '1px solid #CFBD97',
         borderRadius : '20px',
-        paddingBottom : '10px'
+        padding : '10px'
     } 
     const styleGoldenButton = {
         backgroundColor : '#CFBD97',
@@ -72,8 +74,8 @@ function SignUp () {
     return (
         <div className="container-fluid bg-black">
             <img src={logo} width={'100px'}/>
-            <div className="container col-12 col-md-6 px-5" style={contstyle}>
-                <p className="fs-1 fw-bold mt-5 mb-3 text-center">Register</p>
+            <div className="container col-12 col-md-8 px-5" style={contstyle}>
+                <p className="fs-1 fw-bold mt-5 mb-3 text-center">Create Account</p>
                 <form className="mt-5" onSubmit={handleSubmit}>
                     <label className="form-label">Name</label>
                     <input className="form-control mt-3"
@@ -105,6 +107,14 @@ function SignUp () {
                         name="clientTel"
                         placeholder="Entrez votre Numéro de Téléphone"
                         value={client.clientTel}
+                        onChange={handleChange}
+                        required/>
+                    <label className="form-label mt-3">Location</label>
+                    <input className="form-control mt-3"
+                        type="text"
+                        name="clientLocation"
+                        placeholder="Entrez votre point de livraison"
+                        value={client.clientLocation}
                         onChange={handleChange}
                         required/>
                     <div className="container text-center">

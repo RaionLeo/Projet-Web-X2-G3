@@ -30,7 +30,14 @@
             $data = json_decode(file_get_contents('php://input'), true);
             $clientId = $data['clientid'] ?? null;
             $CommandeController->getCommandHistory($clientId);
-            
+        }
+        if ($action === 'getunconfirmed'){
+            $data = json_decode(file_get_contents('php://input'), true);
+            $currentdate = $data['commandedate'] ?? null;
+            $CommandeController->getAllCommandes($currentdate);
+        }
+        if($action === "update"){
+            $CommandeController->UpdateCommand();
         }
     }
     

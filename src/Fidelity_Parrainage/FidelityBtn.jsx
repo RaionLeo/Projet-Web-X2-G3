@@ -10,6 +10,7 @@ function FidelityBtn ({idParrain}) {
         filleulId: cookies.clientId,
         parrainId: ''
     });
+    const [pts, setPts] = useState(0);
 
     useEffect(() => {
         if (idParrain.parrainid) {
@@ -18,6 +19,18 @@ function FidelityBtn ({idParrain}) {
                 parrainId: idParrain.parrainid
             }));
         }
+
+        axios.post('http://localhost/Project1/webProject/backend/routers/ClientApi.php?action=getpoints', {clientid : filleul.parrainId})
+            .then(response => {
+                    if(response.statusText === "OK" && response.data.points) {
+                        setPts(response.data.points);
+                    }else {
+                        setPts([]);
+                    }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
     }, [idParrain]);
     
     const handleClick = (e) => {
@@ -34,6 +47,19 @@ function FidelityBtn ({idParrain}) {
             .catch(error => {
                 console.error('There was an error' , error);
             })
+
+            axios.post('http://localhost/Project1/webProject/backend/routers/ClientApi.php?action=changepoints', {
+                clientId: filleul.parrainId,
+                fidelityPoints: pts + 15
+            })
+            .then(response => {
+                if (response.data.status === 201) {
+                    console.log(response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error updating points:', error);
+            });
         }
     };
 

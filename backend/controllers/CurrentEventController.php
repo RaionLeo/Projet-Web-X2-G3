@@ -20,7 +20,7 @@
             } else {
                 echo json_encode([
                     'status' => 'error',
-                    'message' => 'No Promotions'
+                    'message' => 'No events'
                 ]);
             }
         }

@@ -13,6 +13,7 @@ class Client
     public $registryDate;
     public $accountState;
     public $clientSecret;
+    public $clientLocation;
 
     public function __construct($db)
     {
@@ -22,14 +23,14 @@ class Client
     public function create()
     {
         $hashed_password = password_hash($this->clientSecret, PASSWORD_DEFAULT);
-        $query = "SELECT Write_To_Client(:clientid, :clientname, :clientemail, :clienttel, :fidelitypoints, :registrydate, :accountstate, :clientsecret)";
+        $query = "SELECT Write_To_Client(:clientid, :clientname, :clientemail, :clienttel, :fidelitypoints, :registrydate, :accountstate, :clientsecret, :clientlocation)";
         $stmt = $this->conn->prepare($query);
 
         $this->clientName = htmlspecialchars(strip_tags($this->clientName));
         $this->clientEmail = htmlspecialchars(strip_tags($this->clientEmail));
         $this->clientTel = htmlspecialchars(strip_tags($this->clientTel));
         $this->clientSecret = htmlspecialchars(strip_tags($this->clientSecret));
-
+        $this->clientLocation = htmlspecialchars(strip_tags($this->clientLocation));
 
         $stmt->bindParam(':clientid', $this->clientId);
         $stmt->bindParam(':clientname', $this->clientName);
@@ -39,6 +40,7 @@ class Client
         $stmt->bindParam(':registrydate', $this->registryDate);
         $stmt->bindParam(':accountstate', $this->accountState);
         $stmt->bindParam(':clientsecret', $hashed_password);
+        $stmt->bindParam(':clientlocation', $this->clientLocation);
 
         if ($stmt->execute()) {
             return true;
@@ -49,7 +51,7 @@ class Client
 
     public function Read($email)
     {
-        $query = "SELECT * FROM Client WHERE clientEmail = :email LIMIT 1";
+        $query = "SELECT * FROM Get_Client(:email) LIMIT 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":email", $email);
         $stmt->execute();

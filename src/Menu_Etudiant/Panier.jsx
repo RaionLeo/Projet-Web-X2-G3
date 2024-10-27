@@ -8,6 +8,7 @@ function Panier ({cartItems, RemoveFromCart, TotalCost}) {
     const [clientPts, setClientPts] = useState(null); // Set initial to null to avoid undefined errors
     const [newTotal, setNewTotal] = useState(1);
     const [cookies] = useCookies(['clientId', 'clientName']);
+    const [idCommande, setIdCommande] = useState('')
     
     useEffect(() => {
         axios.post('http://localhost/Project1/webProject/backend/routers/ClientApi.php?action=getpoints', {clientid : cookies.clientId})
@@ -77,9 +78,10 @@ function Panier ({cartItems, RemoveFromCart, TotalCost}) {
     const goToPayment = () => {
         
         const finalTotal = newTotal !== 1 ? newTotal : TotalCost;
+        setIdCommande('Commande' + uuidv4())
 
         axios.post('http://localhost/Project1/webProject/backend/routers/CommandeApi.php?action=register', {
-            commandeId : 'Commande' + uuidv4(),
+            commandeId : idCommande,
             clientId : cookies.clientId,       
             commandeTotal : Math.floor(finalTotal),
             commandePoints : Math.round(finalTotal / 1000),
@@ -98,7 +100,7 @@ function Panier ({cartItems, RemoveFromCart, TotalCost}) {
 
         addpoints(finalTotal);
         
-        navigate('/Payment', { state: { total: Math.floor(finalTotal), cartstuff: cartItems } });
+        navigate('/Payment', { state: { total: Math.floor(finalTotal), cartstuff: cartItems , commandID : idCommande} });
     };
 
     return (

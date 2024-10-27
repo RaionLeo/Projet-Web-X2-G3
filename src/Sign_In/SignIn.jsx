@@ -29,6 +29,7 @@ function SignIn () {
                     setCookie('clientId', response.data.client_id, {path: '/', sameSite : 'None', secure: true});
                     setCookie('clientName', response.data.client_name, {path : '/', sameSite: 'None', secure: true});
                     alert('Login successful');
+                    alert('Nous Utilisons des Cookies.')
                     goToClientHome();
                 }
                 else {alert('login failed');}

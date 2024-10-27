@@ -32,6 +32,8 @@ DELETE FROM Question
        CASCADE;
 DELETE FROM MiniJeu
        CASCADE;
+DELETE FROM employee
+        CASCADE;
 DELETE FROM Admin
        CASCADE;
 DELETE FROM Client

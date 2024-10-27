@@ -27,6 +27,11 @@ CREATE DOMAIN IdAdmin
     CONSTRAINT IdAdmin_inv CHECK (value SIMILAR TO 'Admin[a-zA-Z0-9.-]{36}')
 ;
 
+CREATE DOMAIN IdGerant
+    VARCHAR
+    CONSTRAINT IdAdmin_inv CHECK (value SIMILAR TO 'Gerant[a-zA-Z0-9.-]{36}')
+;
+
 CREATE DOMAIN Nom
     VARCHAR
     CONSTRAINT Nom_inv CHECK (length(value) > 0)
@@ -94,6 +99,11 @@ CREATE DOMAIN IdSetting
     CONSTRAINT IdSetting_inv CHECK (value SIMILAR TO 'Plat[a-zA-Z0-9.-]{36}')
 ;
 
+CREATE DOMAIN IdEmployee
+    VARCHAR
+    CONSTRAINT IdEmployee_inv CHECK (VALUE SIMILAR TO 'Employee[a-zA-Z0-9.-]{36}')
+;
+
 CREATE DOMAIN pass /*Add it to document*/
     VARCHAR
     CONSTRAINT pass_inv CHECK (length(value) > 7)
@@ -117,8 +127,23 @@ CREATE TABLE Client
     fidelityPoints  INT         NOT NULL,
     registryDate    DATE        NOT NULL,
     accountState    AccState    NOT NULL,
-    clientSecret    pass        NOT NULL,  /*Add it to document*/
+    clientSecret    pass        NOT NULL,
+    clientLocation  VARCHAR     NOT NULL,
     CONSTRAINT      client_cc0  PRIMARY KEY (clientId)
+);
+
+CREATE TABLE Employee (
+    employeeId      IdEmployee      NOT NULL,
+    employeeName    Nom             NOT NULL,
+    employeeEmail   Email           NOT NULL    UNIQUE,
+    registryDate    DATE            NOT NULL,
+    employeeSecret  pass            NOT NULL,
+    CONSTRAINT      employee_cc0    PRIMARY KEY (employeeId)
+);
+
+CREATE TABLE Gerant(
+    gerantId        idgerant        NOT NULL,
+    gerantSecret    pass            NOT NULL
 );
 
 CREATE TABLE Admin
@@ -175,8 +200,9 @@ CREATE TABLE MenuPlat
 (
     menuId      IdMenu          NOT NULL,
     plateId     IdPlate         NOT NULL,
+    inStock     BOOLEAN         NOT NULL,
     CONSTRAINT  menuplat_cc0    PRIMARY KEY (menuId, plateId),
-    CONSTRAINT  menuplat_cc1    FOREIGN KEY (menuId)    REFERENCES menu,
+    CONSTRAINT  menuplat_cc1    FOREIGN KEY (menuId)    REFERENCES menu ON DELETE CASCADE,
     CONSTRAINT  menuplat_cc2    FOREIGN KEY (plateId)   REFERENCES plat
 );
 
@@ -194,7 +220,7 @@ CREATE TABLE PromoPlat
     promotionId     IdPromo         NOT NULL,
     plateId         IdPlate         NOT NULL,
     CONSTRAINT      promoplat_cc0   PRIMARY KEY (promotionId, plateId),
-    CONSTRAINT      promoplat_cc1   FOREIGN KEY (promotionId) REFERENCES promotion,
+    CONSTRAINT      promoplat_cc1   FOREIGN KEY (promotionId) REFERENCES promotion ON DELETE CASCADE,
     CONSTRAINT      promoplat_cc2   FOREIGN KEY (plateId)     REFERENCES Plat
 );
 
@@ -259,10 +285,12 @@ CREATE TABLE ReclamationResp
 (
     responseId       IdResp      NOT NULL,
     reclamationId    IdRec       NOT NULL,
+    employeeId       IdEmployee  NOT NULL,
     response         VARCHAR     NOT NULL,
     responseValid    BOOLEAN     NOT NULL,
     CONSTRAINT      resp_cc0    PRIMARY KEY (responseId),
-    CONSTRAINT      resp_cc1    FOREIGN KEY (reclamationId) REFERENCES Reclamation
+    CONSTRAINT      resp_cc1    FOREIGN KEY (reclamationId) REFERENCES Reclamation,
+    CONSTRAINT      resp_cc2    FOREIGN KEY (employeeId)    REFERENCES employee
 );
 
 CREATE TABLE Parametre

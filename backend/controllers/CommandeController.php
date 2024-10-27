@@ -55,5 +55,46 @@
                 ]);
             }
         }
+
+        public function getAllCommandes($currentdate)
+        {
+            $commandes = $this->commande->getCommandes($currentdate);
+
+            if (count($commandes) > 0) {
+                echo json_encode([
+                    'status' => 'success',
+                    'commandes' => $commandes
+                ]);
+            } else {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'No Commandes'
+                ]);
+            }
+        }
+
+        public function UpdateCommand() {
+            $data = json_decode(file_get_contents('php://input'));
+
+            if($data) {
+                $this->commande->commandeConfirm = $data->commandeConfirm;
+                $this->commande->commandeId = $data->commandeId;
+            }
+            else{echo "No commande data changed";}
+
+            if ($this->commande->Update()){
+                $response = [
+                    'status'=> 201,
+                    'message'=> 'commande data changed successfully'
+                ];
+            } else {
+                $response = [
+                    'status' => 500,
+                    'message' => 'commande data changing failed'
+                ];
+            }
+
+            echo json_encode($response);
+        }
     }
 ?>

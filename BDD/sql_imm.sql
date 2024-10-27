@@ -22,17 +22,55 @@ $$LANGUAGE plpgsql;
 */
 
 -- Write to Client
-CREATE OR REPLACE FUNCTION Write_To_Client(var1 TEXT, var2 TEXT, var3 TEXT, var4 TEXT, var5 INT, var6 DATE, var7 TEXT, var8 TEXT)
+CREATE OR REPLACE FUNCTION Write_To_Client(var1 TEXT, var2 TEXT, var3 TEXT, var4 TEXT, var5 INT, var6 DATE, var7 TEXT, var8 TEXT, var9 TEXT)
 RETURNS TEXT
 AS $$
     BEGIN
-        INSERT INTO Client(clientid, clientname, clientemail, clienttel, fidelitypoints, registrydate, accountstate, clientsecret)
-        VALUES($1,$2,$3,$4,$5,$6,$7,$8);
+        INSERT INTO Client(clientid, clientname, clientemail, clienttel, fidelitypoints, registrydate, accountstate, clientsecret, clientLocation)
+        VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9);
         RETURN 'Insertion Successful';
     end;
 $$LANGUAGE plpgsql;
 
-SELECT Write_To_Client('Client8b485a73-8750-4901-9d7c-43e37deac673','John','engolo@gmail.com','697889556',0,'2024-10-14','activé','Hopdop21');
+SELECT Write_To_Client('Client8b485a73-8750-4901-9d7c-43e37deac673','John','engolo@gmail.com','697889556',0,'2024-10-14','activé','Hopdop21', 'Residence');
+
+CREATE OR REPLACE FUNCTION Write_To_Admin(var1 TEXT, var2 TEXT)
+RETURNS TEXT
+AS $$
+    BEGIN
+        INSERT INTO admin(adminid, adminsecret)
+        VALUES($1, $2);
+        RETURN 'Insertion Successful';
+    end;
+$$LANGUAGE plpgsql;
+
+SELECT  Write_To_Admin('Admin010101010101010101010101010101010101', 'NipNip12');
+
+CREATE OR REPLACE FUNCTION Write_To_Gerant(var1 TEXT, var2 TEXT)
+RETURNS TEXT
+AS $$
+    BEGIN
+        INSERT INTO gerant(gerantid, gerantsecret)
+        VALUES($1, $2);
+        RETURN 'Insertion Successful';
+    end;
+$$LANGUAGE plpgsql;
+
+SELECT  Write_To_Admin('Admin010101010101010101010101010101010101', 'NipNip12');
+
+CREATE OR REPLACE FUNCTION Write_To_Employee(var1 TEXT, var2 TEXT, var3 TEXT, var4 DATE, var5 TEXT)
+RETURNS TEXT
+AS $$
+    BEGIN
+        INSERT INTO employee(employeeid, employeename, employeeemail, registrydate, employeesecret)
+        VALUES($1, $2, $3, $4, $5);
+        RETURN 'Insertion Successful';
+    end;
+$$LANGUAGE plpgsql;
+
+SELECT  Write_To_Employee('Employee010101010101010101010101010101010101', 'Mars', 'Mars@gmail.com', '2024-10-23', 'Lupdup12');
+
+
 -- Write to MiniJeu
 CREATE OR REPLACE FUNCTION Write_To_MiniJeu(var1 TEXT, var2 DATE)
 RETURNS TEXT
@@ -44,7 +82,7 @@ AS $$
     end;
 $$LANGUAGE plpgsql;
 
-SELECT Write_To_MiniJeu('Quiz8b485a73-8750-4901-9d7c-43e37deac670', '2024-10-19');
+SELECT Write_To_MiniJeu('Quiz8b485a73-8750-4901-9d7c-43e37deac670', '2024-10-25');
 SELECT Write_To_MiniJeu('Quiz8b485a73-8750-4901-9d7c-43e37deac671', '2024-10-20');
 SELECT Write_To_MiniJeu('Quiz8b485a73-8750-4901-9d7c-43e37deac672', '2024-10-21');
 SELECT Write_To_MiniJeu('Quiz8b485a73-8750-4901-9d7c-43e37deac673', '2024-10-23');
@@ -112,21 +150,21 @@ SELECT Write_To_Menu('Menu8b485a73-8750-4901-9d7c-43e37deac671', '2024-10-15');
 SELECT Write_To_Menu('Menu8b485a73-8750-4901-9d7c-43e37deac672', '2024-10-18');
 SELECT Write_To_Menu('Menu8b485a73-8750-4901-9d7c-43e37deac673', '2024-10-19');
 SELECT Write_To_Menu('Menu8b485a73-8750-4901-9d7c-43e37deac674', '2024-10-20');
-SELECT Write_To_Menu('Menu8b485a73-8750-4901-9d7c-43e37deac675', '2024-10-21');
+SELECT Write_To_Menu('Menu8b485a73-8750-4901-9d7c-43e37deac675', '2024-10-25');
 
 
 -- Write to MenuPlat
-CREATE OR REPLACE FUNCTION Write_To_MenuPlat(var1 TEXT, var2 TEXT)
+CREATE OR REPLACE FUNCTION Write_To_MenuPlat(var1 TEXT, var2 TEXT, var3 BOOLEAN)
 RETURNS TEXT
 AS $$
     BEGIN
-        INSERT INTO MenuPlat(menuid, plateid)
-        VALUES($1,$2);
+        INSERT INTO MenuPlat(menuid, plateid, instock)
+        VALUES($1,$2,$3);
         RETURN 'Insertion Successful';
     end;
 $$LANGUAGE plpgsql;
 
-SELECT Write_To_MenuPlat('Menu8b485a73-8750-4901-9d7c-43e37deac670', 'Plat8b485a73-8750-4901-9d7c-43e37deac670');
+SELECT Write_To_MenuPlat('Menu8b485a73-8750-4901-9d7c-43e37deac670', 'Plat8b485a73-8750-4901-9d7c-43e37deac670',true);
 SELECT Write_To_MenuPlat('Menu8b485a73-8750-4901-9d7c-43e37deac670', 'Plat8b485a73-8750-4901-9d7c-43e37deac671');
 SELECT Write_To_MenuPlat('Menu8b485a73-8750-4901-9d7c-43e37deac671', 'Plat8b485a73-8750-4901-9d7c-43e37deac672');
 SELECT Write_To_MenuPlat('Menu8b485a73-8750-4901-9d7c-43e37deac672', 'Plat8b485a73-8750-4901-9d7c-43e37deac670');
@@ -136,9 +174,9 @@ SELECT Write_To_MenuPlat('Menu8b485a73-8750-4901-9d7c-43e37deac673', 'Plat8b485a
 SELECT Write_To_MenuPlat('Menu8b485a73-8750-4901-9d7c-43e37deac673', 'Plat8b485a73-8750-4901-9d7c-43e37deac672');
 SELECT Write_To_MenuPlat('Menu8b485a73-8750-4901-9d7c-43e37deac674', 'Plat8b485a73-8750-4901-9d7c-43e37deac671');
 SELECT Write_To_MenuPlat('Menu8b485a73-8750-4901-9d7c-43e37deac674', 'Plat8b485a73-8750-4901-9d7c-43e37deac672');
-SELECT Write_To_MenuPlat('Menu8b485a73-8750-4901-9d7c-43e37deac675', 'Plat8b485a73-8750-4901-9d7c-43e37deac671');
-SELECT Write_To_MenuPlat('Menu8b485a73-8750-4901-9d7c-43e37deac675', 'Plat8b485a73-8750-4901-9d7c-43e37deac672');
-SELECT Write_To_MenuPlat('Menu8b485a73-8750-4901-9d7c-43e37deac675', 'Plat8b485a73-8750-4901-9d7c-43e37deac670');
+SELECT Write_To_MenuPlat('Menu8b485a73-8750-4901-9d7c-43e37deac675', 'Plat8b485a73-8750-4901-9d7c-43e37deac671', true);
+SELECT Write_To_MenuPlat('Menu8b485a73-8750-4901-9d7c-43e37deac675', 'Plat8b485a73-8750-4901-9d7c-43e37deac672', false);
+SELECT Write_To_MenuPlat('Menu8b485a73-8750-4901-9d7c-43e37deac675', 'Plat8b485a73-8750-4901-9d7c-43e37deac670', true);
 
 
 
@@ -159,6 +197,7 @@ SELECT Write_To_Promotion('Promo8b485a73-8750-4901-9d7c-43e37deac672', '2024-10-
 SELECT Write_To_Promotion('Promo8b485a73-8750-4901-9d7c-43e37deac673', '2024-10-17', '2024-10-19', '50');
 SELECT Write_To_Promotion('Promo8b485a73-8750-4901-9d7c-43e37deac674', '2024-10-19', '2024-10-20', '25');
 SELECT Write_To_Promotion('Promo8b485a73-8750-4901-9d7c-43e37deac675', '2024-10-21', '2024-10-22', '25');
+SELECT Write_To_Promotion('Promo8b485a73-8750-4901-9d7c-43e37deac676', '2024-10-24', '2024-10-25', '15');
 
 -- Write to PromoPlat
 CREATE OR REPLACE FUNCTION Write_To_PromoPlat(var1 TEXT, var2 TEXT)
@@ -178,6 +217,8 @@ SELECT Write_To_PromoPlat('Promo8b485a73-8750-4901-9d7c-43e37deac673','Plat8b485
 SELECT Write_To_PromoPlat('Promo8b485a73-8750-4901-9d7c-43e37deac673','Plat8b485a73-8750-4901-9d7c-43e37deac671');
 SELECT Write_To_PromoPlat('Promo8b485a73-8750-4901-9d7c-43e37deac674','Plat8b485a73-8750-4901-9d7c-43e37deac671');
 SELECT Write_To_PromoPlat('Promo8b485a73-8750-4901-9d7c-43e37deac675','Plat8b485a73-8750-4901-9d7c-43e37deac671');
+SELECT Write_To_PromoPlat('Promo8b485a73-8750-4901-9d7c-43e37deac676','Plat8b485a73-8750-4901-9d7c-43e37deac671');
+SELECT Write_To_PromoPlat('Promo8b485a73-8750-4901-9d7c-43e37deac676','Plat8b485a73-8750-4901-9d7c-43e37deac672');
 
 -- Write to Commande
 CREATE OR REPLACE FUNCTION Write_To_Commande(var1 TEXT, var2 TEXT, var3 INT, var4 INT, var5 DATE, var6 BOOLEAN)
@@ -241,12 +282,12 @@ AS $$
 $$LANGUAGE plpgsql;
 
 -- Write to ReclamationResp
-CREATE OR REPLACE FUNCTION Write_To_Resp(var1 TEXT, var2 TEXT, var3 TEXT, var4 BOOLEAN)
+CREATE OR REPLACE FUNCTION Write_To_Resp(var1 TEXT, var2 TEXT, var3 TEXT, var4 TEXT, var5 BOOLEAN)
 RETURNS TEXT
 AS $$
     BEGIN
-        INSERT INTO ReclamationResp (responseid, reclamationid, response, responsevalid)
-        VALUES($1,$2,$3,$4);
+        INSERT INTO ReclamationResp (responseid, reclamationid, employeeid, response, responsevalid)
+        VALUES($1,$2,$3,$4,$5);
         RETURN 'Insertion Successful';
     end;
 $$LANGUAGE plpgsql;

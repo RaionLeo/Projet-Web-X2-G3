@@ -17,7 +17,7 @@ function ClientHero () {
             {cookies.clientId ?
              (<h1 className='mb-5 text-center' style={{color:'white'}}>Hello, <span style={{color:'#CFBD97'}}>{cookies.clientName}</span>!</h1>) : 
              (<h1>WELCOME GUEST</h1>)}
-            <div className="row tu-world">
+            <div className="row tu-world d-block d-lg-none">
                 <Carousel>
                     <Carousel.Item>
                         <img

@@ -34,12 +34,12 @@ function TableHistorique () {
 
     return(
         <div className="container-fluid">
-            <h1 className="text-center text-white fw-bold">Historique des Commandes</h1>
+            <h1 className="text-center text-white fw-bold"><span style={{color:'#CFBD97'}}>Historique </span> des Commandes</h1>
             <div className="container-fluid mt-5">
-                <table className="w-100 bg-white">
+                <table className="w-100 bg-black">
                     <thead className="border-bottom text-white" style={{backgroundColor:'#CFBD97'}}>
                         <tr className="text-center">
-                            <th>Id Commande</th>
+                            <th className="py-3">Id Commande</th>
                             <th>Prix Total</th>
                             <th>Points Gagnés</th>
                             <th>Date</th>
@@ -47,15 +47,15 @@ function TableHistorique () {
                     </thead>
                     <tbody>
                         {history.map((item, index) => (
-                            <tr key={index} className="border-bottom text-center">
+                            <tr key={index} className="border-bottom text-center text-secondary">
                                 <td className="text-start">{item.commandeid}</td>
-                                <td>{item.commandetotal} FCFA</td>
+                                <td className="py-3">{item.commandetotal} FCFA</td>
                                 <td>{item.commandepoints}</td>
                                 <td>{item.commandedate}</td>
                             </tr>
                         ))}
                     </tbody>
-                    <p className="bg-white mt-5">Total des paiements : {total} FCFA</p>
+                    <p className="text-white mt-5">Total des paiements : {total} FCFA</p>
                 </table>
             </div>
         </div>

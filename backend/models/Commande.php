@@ -34,7 +34,7 @@
         }
     }
 
-    public function CommandHistory ($clientId) {
+    public function CommandHistory ($clientId) { //add allcommandtoday, update commande state
         $query = "SELECT * FROM Get_Command_History(:clientid);";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":clientid", $clientId);
@@ -46,6 +46,36 @@
             $history[] = $row;
         }
         return $history;
+    }
+
+    public function getCommandes($currentdate)
+    {
+        $query = "SELECT * FROM Get_Commandes_Unconfirmed(:currentdate);";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":currentdate", $currentdate);
+        $stmt->execute();
+        
+        $commandes = [];
+    
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $commandes[] = $row;
+        }
+
+        return $commandes;
+    }
+
+    public function Update() {
+        $query = "SELECT Change_Commande_State(:commandeconfirm, :commandeid)";
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->bindParam(":commandeconfirm", $this->commandeConfirm);
+        $stmt->bindParam(":commandeid", $this->commandeId);
+        
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
  }
 ?>

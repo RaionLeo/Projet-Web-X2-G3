@@ -17,10 +17,37 @@ $action = $_GET['action'] ?? null;
 
 $MenuController = new MenuController($db, $requestMethod);
 
-if ($requestMethod === 'POST' && $action === 'menus') {
-    $data = json_decode(file_get_contents('php://input'), true);
-    $currentdate = $data['menudate'] ?? null;
-    $MenuController->getAllMenus($currentdate);
+if ($requestMethod === 'POST') {
+    if ($action === 'menus'){
+        $data = json_decode(file_get_contents('php://input'), true);
+        $currentdate = $data['menudate'] ?? null;
+        $MenuController->getAllMenus($currentdate);
+    }
+    if ($action === 'getmenu'){
+        $data = json_decode(file_get_contents('php://input'), true);
+        $currentdate = $data['menudate'] ?? null;
+        $MenuController->getAllTrueMenu($currentdate);
+    }
+    if ($action === "register") {
+        $MenuController->registerMenu();
+    }
+    if ($action === "registerplat") {
+        $MenuController->registerMenuPlat();
+    }
+    if($action === "update"){
+        $MenuController->UpdateMenu();
+    }
+    if ($action === "delete") {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $menuId = $data['menuid'] ?? null;
+        $MenuController->deleteMenu($menuId);
+    }
+    if ($action === "deleteplat") {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $plateId = $data['plateid'] ?? null;
+        $MenuController->deleteMenuPlat($plateId);
+    }
+    
 
 } else {
     echo json_encode([

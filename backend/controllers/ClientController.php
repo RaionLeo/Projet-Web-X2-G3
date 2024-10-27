@@ -24,6 +24,7 @@
                 $this->client->registryDate = $data->registryDate;
                 $this->client->accountState = $data->accountState;
                 $this->client->clientSecret = $data->clientSecret;
+                $this->client->clientLocation = $data->clientLocation;
             }
             else{echo "No client data recieved";}
 

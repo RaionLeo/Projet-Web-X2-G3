@@ -1,7 +1,9 @@
 import heroimg from '../assets/7c920d09-e95f-4e34-ac59-983e4a72b874.webp'
+import { useNavigate } from 'react-router-dom'
 
 
 function GeneralHero () {
+    const navigate = useNavigate();
 
     const styleGolden = {color: '#CFBD97'}
     const styleGoldenButton = {
@@ -23,6 +25,14 @@ function GeneralHero () {
         fontSize : '4vw'
     }
 
+    const goToTransition = () => {
+        navigate('/Transition');
+    } 
+
+    const goToSignIn = () => {
+        navigate('/SignIn');
+    }
+
     return(
         <>
             <div className="container-fluid bg-black mt-5 pb-5">
@@ -34,10 +44,10 @@ function GeneralHero () {
                         <div className='container mt-4'>
                             <div className='row'>
                                 <div className='col-6'>
-                                    <button className='mb-3' style={styleGoldenButton}>Placer une commande</button>
+                                    <button className='mb-3' style={styleGoldenButton} onClick={goToSignIn}>Placer une commande</button>
                                 </div>
                                 <div className='col-6'>
-                                    <button style={styleGoldBorder}>Je suis un employé</button>
+                                    <button style={styleGoldBorder} onClick={goToTransition}>Je suis un employé</button>
                                 </div>
                             </div>
                         </div>

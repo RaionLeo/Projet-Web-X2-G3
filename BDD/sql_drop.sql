@@ -31,6 +31,8 @@ DROP TABLE Question;
 DROP TABLE MiniJeu;
        
 DROP TABLE Admin;
+
+DROP TABLE employee;
        
 DROP TABLE Client;
 

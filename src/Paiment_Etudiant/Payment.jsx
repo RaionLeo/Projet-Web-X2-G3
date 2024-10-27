@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import FullNavbar from "../Accueil_Etudiant/FullNavbar";
 import Footer from "../Pages_D'accueil/Footer";
+import { v4 as uuidv4} from "uuid";
 
 function Payment () {
     const [paidfor, setPaidFor] = useState(false);
@@ -11,6 +12,8 @@ function Payment () {
     const location = useLocation();
     const {total} = location.state || {total:0}; 
     const {cartstuff} = location.state || [];
+    const {commandID} = location.state || {commandID:''}
+    let currentDate = new Date().toJSON().slice(0, 10);
 
     const Product = {
         description : 'Un bon miam miam',
@@ -61,12 +64,57 @@ function Payment () {
         }
     }, [loaded, Product.price]);
 
+    //To be continued
+
+    const [reclamation, setReclamation] = useState({
+        reclamationid : 'Rec' + uuidv4(),
+        commandeid : commandID,
+        reclamationdate : currentDate,
+        reclamationdescription : ''
+    });
+
+    
+    const handleChange = (e) => {
+        setPlate({
+            ...reclamation,
+            [e.target.name]: e.target.value
+        });
+    };
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        axios.post('http://localhost/Project1/webProject/backend/routers/ReclamationApi.php?action=register', reclamation)
+            .then(response => {
+                console.log(response.data);
+                if (response.data.status === 201) {
+                    alert(response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error('There was an error' , error);
+            })
+    };
+
     return(
         <div className="bg-black">
             <FullNavbar/>
             {paidfor ? (
                 <div>
                     <h1>Merci pour votre commande!</h1>
+                    <form className="mt-5" onSubmit={handleSubmit}>
+                        <label className="form-label text-secondary">Commentaire ou Reclamation</label>
+                        <input className="form-control mt-3"
+                            type="text"
+                            name="reclamationdescription"
+                            placeholder="Votre commentaire"
+                            value={reclamation.reclamationdescription}
+                            onChange={handleChange}
+                            required/>
+                        <div className="container text-center">
+                            <button className="btn btn-primary my-5 px-5 fw-bold" style={{backgroundColor:'#CFBD97', border:'none'}}>Ajouter</button>
+                        </div>
+                    </form>
                 </div>
             ):(
                 <div className="container-fluid bg-black pt-5">
