@@ -1,4 +1,4 @@
-## Projet Web G3 Mon Miam Miam
+# Projet Web G3 Mon Miam Miam
 
 Taches Attribué
 
@@ -11,7 +11,7 @@ Taches Attribué
 
 Tout le monde a participé au figma
 
-# Technologies utilisées 
+## Technologies utilisées 
 
 - React JS
 - Bootstrap
