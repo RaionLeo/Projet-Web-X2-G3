@@ -1,8 +1,20 @@
-# React + Vite
+## Projet Web G3 Mon Miam Miam
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Taches Attribué
 
-Currently, two official plugins are available:
+- Lionel : Le Code entier
+- Hubert : PowerPoint; Compilation des livrables
+- Marcel : Le budget, les test unitaires
+- Frédéric : La gestion des risques; Le jira
+- Anaêl : L'architecture projet
+- Roushda : La charte graphique
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Tout le monde a participé au figma
+
+# Technologies utilisées 
+
+- React JS
+- Bootstrap
+- PHP
+- Postgresql
+
